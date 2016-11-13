@@ -10,7 +10,7 @@ Usage
 Simple usage:
 Run the exampleLoop method every 0.1 seconds (100 milliseconds).
 ~~~~
-import periodicrun from periodicrun
+from periodicrun import periodicrun
 
 def exampleLoop():
     print "Execution time (microseconds): ", int(round( time.time()*1000000 ))
@@ -34,7 +34,7 @@ You can run the method as a seperate thread instead. Don't forget to join the th
 
 Just use *run_thread()* instead of *run()*.
 ~~~~
-import periodicrun from periodicrun
+from periodicrun import periodicrun
 
 def exampleLoop():
     print "Execution time (microseconds): ", int(round( time.time()*1000000 ))
@@ -66,3 +66,24 @@ periodicrun(period, loop, args=(), lifetime=0, accuracy=0.0001)
 * lifetime: optional. The lifetime of the periodic loop in seconds. If it is defined and different than zero, the loop will stop after specified seconds. Otherwise it will run forever.
 * accuracy: optional. The timing accuracy of the peridic loop. If you do not need higher accuracy you can use larger number to reduce the CPU usage. You can use smaller number for better accuracy but CPU may not be able to do so (It depends on the system specs). Default: 0.0001 (100 microseconds)
 
+Example:
+Period 1sec, 2 arguments, 5sec lifetime, accuracy 10 milliseconds
+~~~~
+from periodicrun import periodicrun
+
+def exampleLoop(arg1, arg2):
+    print arg1, arg2, "Execution time (microseconds): ", int(round( time.time()*1000000 ))
+
+testArg1 = "Test arg"
+testArg2 = 999.999
+pr = periodicrun(1, exampleLoop, (testArg1, testArg2,), 5, 0.01)
+pr.run()
+~~~~
+Output:
+~~~~
+Test arg 999.999 Execution time (microseconds):  1479003014577629
+Test arg 999.999 Execution time (microseconds):  1479003015577151
+Test arg 999.999 Execution time (microseconds):  1479003016577157
+Test arg 999.999 Execution time (microseconds):  1479003017577155
+Test arg 999.999 Execution time (microseconds):  1479003018577164
+~~~~
